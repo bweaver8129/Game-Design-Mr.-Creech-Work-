@@ -1,0 +1,41 @@
+import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    boolean wholeSystem = true;
+    while (wholeSystem == true){
+      System.out.println("type yes or no to continue");
+    String exit = scan.nextLine();
+    if (exit.equals("no")){
+      wholeSystem = false;
+    }
+      boolean stillGoing = true;
+      double answer = 0.0;
+      while (stillGoing == true){
+    System.out.println("Input Equation:");
+      double firstNumber = Double.parseDouble(scan.nextLine());
+      String operation = scan.nextLine();
+      double nextNumber = Double.parseDouble(scan.nextLine());
+      if (operation.equals("+")){
+         answer = (firstNumber + nextNumber);
+      }
+      else if(operation.equals("-")){
+         answer = (firstNumber - nextNumber);
+      }
+      else if(operation.equals("*")){
+        answer = (firstNumber * nextNumber);
+      }
+      else if(operation.equals("/")){
+        answer = (firstNumber / nextNumber);
+        if (nextNumber == 0.0){
+          System.out.println("Cannot divide by zero!");
+        }
+      }
+      
+      System.out.println(answer);
+    }
+    }
+  }
+}
+
