@@ -1,0 +1,86 @@
+ import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args) {
+    Scanner scan = new Scanner(System.in);
+    boolean stillGoing = true;
+      System.out.println("Would you like a tutorial? (yes or no)");
+      String tutorial = scan.nextLine();
+      if (tutorial.equals("yes")){
+        System.out.println("If adding, type +");
+        System.out.println("If subtracting, type -");
+        System.out.println("If multiplying, type *");
+        System.out.println("If dividing, type /");
+        System.out.println("If squaring, type ^");
+        System.out.println(("for the following, except exponential e, type the second number as 0,"));
+        System.out.println("If square rooting, type sqrt ");
+        System.out.println("If using sin, type sin");
+        System.out.println("If using cos, type cos");
+        System.out.println("If using tan, type tan");
+        System.out.println("If using natural log, type log");
+        System.out.println("If using the exponential e function, type e");
+      }
+      double answer = 0.0;
+      
+       
+      while (stillGoing == true){
+      System.out.println("type yes or no to continue");
+      String nah = scan.nextLine();
+      if (nah.equals("no")){
+      break;
+      }
+    System.out.println("Input Equation:");
+      double firstNumber = Double.parseDouble(scan.nextLine());
+      String operation = scan.nextLine();
+      double nextNumber = Double.parseDouble(scan.nextLine());
+      if (operation.equals("+")){
+         answer = (firstNumber + nextNumber);
+      }
+      else if(operation.equals("-")){
+         answer = (firstNumber - nextNumber);
+      }
+      else if(operation.equals("*")){
+        answer = (firstNumber * nextNumber);
+      }
+      else if(operation.equals("/")){
+        answer = (firstNumber / nextNumber);
+        if (nextNumber == 0.0){
+          System.out.println("Cannot divide by zero!");
+        }
+      }
+      else if(operation.equals("^")){
+        answer = Math.pow(firstNumber, nextNumber);
+      }
+      else if(operation.equals("sqrt")){
+        answer = Math.sqrt(firstNumber);
+      }
+      else if(operation.equals("sin") || operation.equals("cos") || operation.equals("tan")){
+        double radians = Math.toRadians(firstNumber);
+        if (operation.equals("sin")){
+          answer = Math.sin(radians);
+        }
+        else if (operation.equals("cos")){
+          answer = Math.cos(radians);
+        }
+        else if (operation.equals("tan")){
+          answer = Math.tan(radians);
+        }
+      }
+      else if (operation.equals("log")){
+        if(nextNumber == 0.0){
+          System.out.println("Cannot get log of 0!");
+        }
+        else {
+          answer = Math.log(firstNumber);
+        }
+      }
+       else if (operation.equals("e")){
+        answer = firstNumber * (Math.exp(nextNumber));
+      }
+      
+      System.out.println(answer);
+    }
+    }
+  }
+
+
