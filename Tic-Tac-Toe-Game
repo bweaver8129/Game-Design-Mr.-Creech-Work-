@@ -1,1 +1,155 @@
+import javax.swing.*;
+import java.awt.*;
 
+public class TicTacToe {
+    static final int ROWS = 3;
+    static final int COLUMNS = 3;
+
+    static String currentPlayer = "X";
+    static String[][] board = new String[ROWS][COLUMNS];
+    static JButton[][] buttons = new JButton[ROWS][COLUMNS];
+    static JLabel statusLabel;
+
+    public static void main(String[] args) {
+        JFrame window = new JFrame("Tic Tac Toe");
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setResizable(false);
+
+        JPanel boardPanel = new JPanel();
+        boardPanel.setLayout(new GridLayout(3, 3));
+
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                board[row][column] = null;
+
+                JButton button = new JButton("");
+                button.setFont(new Font("Arial", Font.BOLD, 40));
+
+                final int selectedRow = row;
+                final int selectedColumn = column;
+
+                button.addActionListener(e ->
+                    buttonClicked(selectedRow, selectedColumn)
+                );
+
+                buttons[row][column] = button;
+                boardPanel.add(button);
+            }
+        }
+
+        statusLabel = new JLabel("X's turn", SwingConstants.CENTER);
+        statusLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+        JButton resetButton = new JButton("Restart");
+        resetButton.setFont(new Font("Arial", Font.PLAIN, 16));
+        resetButton.addActionListener(e -> resetGame());
+
+        JPanel bottomPanel = new JPanel(new GridLayout(2, 1));
+        bottomPanel.add(statusLabel);
+        bottomPanel.add(resetButton);
+
+        window.setLayout(new BorderLayout());
+        window.add(boardPanel, BorderLayout.CENTER);
+        window.add(bottomPanel, BorderLayout.SOUTH);
+
+        window.setSize(450, 500);
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+    }
+
+    public static void buttonClicked(int row, int column) {
+        if (board[row][column] != null) {
+            return;
+        }
+
+        board[row][column] = currentPlayer;
+        buttons[row][column].setText(currentPlayer);
+
+        String winner = checkWinner();
+
+        if (winner != null) {
+            statusLabel.setText(winner + " wins!");
+            disableButtons();
+            return;
+        }
+
+        if (checkTie()) {
+            statusLabel.setText("It's a tie!");
+            return;
+        }
+
+        if (currentPlayer.equals("X")) {
+            currentPlayer = "O";
+        } else {
+            currentPlayer = "X";
+        }
+
+        statusLabel.setText(currentPlayer + "'s turn");
+    }
+
+    public static String checkWinner() {
+        for (int row = 0; row < ROWS; row++) {
+            if (board[row][0] != null &&
+                board[row][0].equals(board[row][1]) &&
+                board[row][1].equals(board[row][2])) {
+                return board[row][0];
+            }
+        }
+
+        for (int column = 0; column < COLUMNS; column++) {
+            if (board[0][column] != null &&
+                board[0][column].equals(board[1][column]) &&
+                board[1][column].equals(board[2][column])) {
+                return board[0][column];
+            }
+        }
+
+        if (board[0][0] != null &&
+            board[0][0].equals(board[1][1]) &&
+            board[1][1].equals(board[2][2])) {
+            return board[0][0];
+        }
+
+        if (board[0][2] != null &&
+            board[0][2].equals(board[1][1]) &&
+            board[1][1].equals(board[2][0])) {
+            return board[0][2];
+        }
+
+        return null;
+    }
+
+    public static boolean checkTie() {
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                if (board[row][column] == null) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public static void disableButtons() {
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                buttons[row][column].setEnabled(false);
+            }
+        }
+    }
+
+    public static void resetGame() {
+        currentPlayer = "X";
+
+        for (int row = 0; row < ROWS; row++) {
+            for (int column = 0; column < COLUMNS; column++) {
+                board[row][column] = null;
+                buttons[row][column].setText("");
+                buttons[row][column].setEnabled(true);
+            }
+        }
+
+        statusLabel.setText("X's turn");
+    }
+}
