@@ -1,0 +1,164 @@
+import java.util.Scanner;
+
+public class Main {
+  public static void main(String[] args)
+  {
+    String[][] rooms = new String[7][6];
+    String[] directions = {"NORTH", "EAST", "SOUTH", "WEST"};
+    rooms[0][4] = "Spikes";
+    rooms[1][3] = "Spikes";
+    rooms[1][4] = "Map";
+    rooms[1][5] = "Spikes";
+    rooms[2][2] = "Spikes";
+    rooms[2][3] = "Sword";
+    rooms[2][4] = "Arrows";
+    rooms[2][5] = "Spikes";
+    rooms[3][0] = "Treasure";
+    rooms[3][1] = "Arrows";
+    rooms[3][2] = "Direction"; //Spawn room
+    rooms[3][3] = "Direction";
+    rooms[3][4] = "Direction";
+    rooms[3][5] = "Spikes";
+    rooms[4][2] = "Spikes";
+    rooms[4][3] = "Shield";
+    rooms[4][4] = "Enemy";
+    rooms[4][5] = "Spikes";
+    rooms[5][3] = "Spikes";
+    rooms[5][4] = "Key";
+    rooms[5][5] = "Spikes";
+    rooms[6][4] = "Spikes";
+    
+    boolean hasSword = false;
+    boolean hasShield = false;
+    boolean hasMap = false;
+    boolean hasKey = false;
+    int currentRow = 2;
+    int currentColumn = 3;
+    Scanner scan = new Scanner(System.in);
+    
+    while (true)
+    {
+      System.out.println("Current Room: " + rooms[currentColumn][currentRow]);
+      System.out.println("Which direction would you like to go?");
+      String direction = scan.nextLine().toUpperCase();
+      if (direction.equals("NORTH"))
+      {
+        currentRow--;
+      }
+      if (direction.equals("EAST"))
+      {
+        currentColumn++;
+      }
+      if (direction.equals("SOUTH"))
+      {
+        currentRow++;
+      }
+      if (direction.equals("WEST"))
+      {
+        currentColumn--;
+      }
+      if (direction.equals("MAP") && hasMap == true)
+      {
+                     System.out.println("           Treasure");
+                    System.out.println("             Arrows");
+                    System.out.println("Spikes   Sword   Direction   Shield   Spikes");
+                    System.out.println("Spikes   Map     Direction   Enemy    Key");
+                    System.out.println("         Spikes Spikes       Spikes   Spikes");
+        }
+      if (direction.equals("MAP") && hasMap != true)
+      {
+        System.out.println("You look around in your pockets and can't find your map! You must have left it at home. Maybe there's another one lying around somewhere...");
+      }
+      
+      
+      
+      if (rooms[currentColumn][currentRow].equals("Spikes"))
+      {
+        System.out.println("You fell into a spike trap and were impaled to death! You have respawned.");
+        currentRow = 2;
+        currentColumn = 3;
+        hasSword = false;
+        hasShield = false;
+        hasMap = false;
+        hasKey = false;
+      }
+      if (rooms[currentColumn][currentRow].equals("Direction"))
+      {
+        if (currentRow == 2 && currentColumn == 3)
+        {
+          System.out.println("You're at where you repelled down into the dungeon.");
+        }
+        else 
+        {
+        System.out.println("There's nothing in this room. Keep searching for tools!");
+        }
+      }
+      if (rooms[currentColumn][currentRow].equals("Sword"))
+      {
+        System.out.println("You find a chest in the middle of another empty room. You open it and see a seemingly endless amount of swords! Taking one won't hurt.");
+        hasSword = true;
+      }
+      if (rooms[currentColumn][currentRow].equals("Shield"))
+      {
+        System.out.println("You find a chest in the middle of another empty room. You open it and see a seemingly endless amount of shields! Taking one won't hurt.");
+        hasShield = true;
+      }
+      if (rooms[currentColumn][currentRow].equals("Arrows"))
+      {
+        if (hasShield == true)
+        {
+          System.out.println("A volley arrow shoots out from the walls! Using your shield, you manage to block the ones coming at you. You're safe for now. Make sure to be careful in future rooms.");
+        }
+        else {
+          System.out.println("A volley arrow shoots out from the walls! Without anything to block yourself, you are impaled by them and die! You have respawned.");
+          currentRow = 2;
+          currentColumn = 3;
+          hasSword = false;
+          hasShield = false;
+          hasMap = false;
+          hasKey = false;
+        }
+      }
+      if (rooms[currentColumn][currentRow].equals("Enemy"))
+      {
+        if (hasSword == true)
+        {
+          System.out.println("Entering the room, you see a hoard of enemies! Using your sword, you manage to slay all of them. You're safe for now. Make sure to be careful in future rooms.");
+        }
+        else {
+          System.out.println("Entering the room, you see a hoard of enemies! Without anything to defend yourself, the enemies manage to overwhelm and kill you! You have respawned.");
+          currentRow = 2;
+          currentColumn = 3;
+          hasSword = false;
+          hasShield = false;
+          hasMap = false;
+          hasKey = false;
+        }
+      }
+      if (rooms[currentColumn][currentRow].equals("Map"))
+      {
+        System.out.println("You find a chest in the middle of another empty room. You open it and see a seemingly endless amount of maps! Taking one won't hurt.");
+        System.out.println("By typing MAP, you can see a map of the entire dungeon!");
+        hasMap = true;
+      }
+      if (rooms[currentColumn][currentRow].equals("Treasure"))
+      {
+        if (hasKey == true)
+        {
+        System.out.println("You have found the sacred treasure! You win!");
+        break;
+        }
+        else
+        {
+         System.out.println("Before you is a MASSIVE golden door, although the color is a bit FADED. There seems to be a key hole, maybe you should find that first. You walk back to where you repelled down."); 
+          currentRow = 2;
+          currentColumn = 3;
+         }
+      }
+      if (rooms[currentColumn][currentRow].equals("Key"))
+      {
+        System.out.println("You found a key! This surely leads to a special place.");
+      }
+    }
+  }
+}
